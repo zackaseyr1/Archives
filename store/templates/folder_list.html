@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Folder List</h1>
+    <a href="{% url 'create_folder' project_id=project.id %}" class="btn btn-primary mb-3">Create Folder</a>
+    <div class="row">
+        {% for folder in folders %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ folder.title }}</h5>
+                        <p class="card-text">{{ folder.description }}</p>
+                        <p class="card-text">{{ folder.created_at }}</p>
+                        
+                        <a href="{% url 'folder_detail' project_id=project.id folder_id=folder.id %}" class="btn btn-primary">View Folder</a>
+                        
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No folders found.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

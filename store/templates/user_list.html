@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>User List</h1>
+    <a href="{% url 'register_user' %}" class="create-user-button">Create User</a>
+    {% if users %}
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th class="username-header">Username</th>
+                    <th class="firstname-header">First Name</th>
+                    <th class="department-header">Department</th>
+                    <th class="last-login-header">Last Login</th>
+                    <th class="last-login-header">Block</th>
+                    <th class="actions-header">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td class="username">{{ user.username }}</td>
+                        <td class="firstname">{{ user.first_name }}</td>
+                        <td class="department">{{ user.department }}</td>
+                        <td class="last-login">{{ user.last_login }}</td>
+                        <td class="last-login">{{ user.block }}</td>
+                        <td class="actions">
+                            <a href="{% url 'user_detail' user.id %}" class="action-link">View</a>
+                            <a href="{% url 'update_user' user.id %}" class="action-link">Update</a>
+                            <a href="{% url 'delete_user' user.id %}" class="action-link">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-users-message">No users found.</p>
+    {% endif %}
+{% endblock %}

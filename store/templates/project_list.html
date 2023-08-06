@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Project List</h1>
+    <a href="{% url 'create_project' %}" class="btn btn-primary mb-3">Create Project</a>
+    <form method="get" class="form-inline mb-3">
+        <div class="form-group mr-2">
+            <label for="department">Department:</label>
+            <select name="department" id="department" class="form-control">
+                <option value="">All Departments</option>
+                <option value="code">Code</option>
+                <option value="document">Document</option>
+            </select>
+        </div>
+        <div class="form-group mr-2">
+            <label for="query">Search:</label>
+            <input type="text" name="query" id="query" class="form-control" value="{{ request.GET.query }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <p>Total Projects: {{ total_projects }}</p>
+
+    <h2>Code Department</h2>
+    <div class="row">
+        {% for project in projects %}
+            {% if project.department == 'code' %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.title }}</h5>
+                            <p class="card-text">{{ project.description }}</p>
+                            <p class="card-text">Created at: {{ project.created_at }}</p>
+                            <p class="card-text">User: {{ project.user }}</p>
+                            <a href="{% url 'project_detail' project_id=project.id %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>No projects found in the Code department.</p>
+        {% endfor %}
+    </div>
+
+    <h2>Document Department</h2>
+    <div class="row">
+        {% for project in projects %}
+            {% if project.department == 'document' %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ project.title }}</h5>
+                            <p class="card-text">{{ project.description }}</p>
+                            <p class="card-text">Created at: {{ project.created_at }}</p>
+                            <p class="card-text">User: {{ project.user }}</p>
+                            <a href="{% url 'project_detail' project_id=project.id %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>No projects found in the Document department.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

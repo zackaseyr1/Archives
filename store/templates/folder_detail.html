@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Folder Detail</h1>
+    <h2>{{ folder.title }}</h2>
+    <p>{{ folder.description }}</p>
+    <p>File: <a href="{{ folder.folder.url }}">{{ folder.folder.name }}</a></p>
+    <a href="{% url 'update_folder' project_id=folder.project.id folder_id=folder.id %}" class="btn btn-primary">Update Folder</a>
+    <a href="{% url 'delete_folder' project_id=folder.project.id folder_id=folder.id %}" class="btn btn-danger">Delete Folder</a>
+    
+{% endblock %}

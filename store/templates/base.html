@@ -1,0 +1,285 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Project Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Styling for the project list */
+.card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the project list header */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+/* Styling for the search form */
+.form-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+/* Styling for the total projects count */
+p {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+/* Styling for the empty project message */
+.empty-message {
+    font-size: 16px;
+    font-style: italic;
+    color: #888;
+}
+
+/* Styling for the container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+/* Styling for the project detail */
+h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    margin-right: 10px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    margin-right: 10px;
+}
+
+.btn-primary:hover,
+.btn-danger:hover {
+    opacity: 0.8;
+}
+
+/* Styling for the folders section */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.table th {
+    font-weight: bold;
+    text-align: left;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+/* Styling for the empty folder message */
+.empty-message {
+    font-size: 16px;
+    font-style: italic;
+    color: #888;
+}
+
+/* Styling for the container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+        .login-container {
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    
+        .form-group {
+            margin-bottom: 20px;
+        }
+    
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+    
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .user-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    .user-table th,
+    .user-table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ccc;
+    }
+    
+    .username-header,
+    .firstname-header,
+    .department-header,
+    .actions-header {
+        font-weight: bold;
+    }
+    
+    .create-user-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #428bca;
+        color: #fff;
+        text-decoration: none;
+        margin-bottom: 20px;
+    }
+    
+    .action-link {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #428bca;
+        color: #fff;
+        text-decoration: none;
+        margin-right: 5px;
+    }
+    
+    .no-users-message {
+        font-style: italic;
+        color: #777;
+    }
+    </style>
+    
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="container">
+            {% if user.is_authenticated %}
+            <a class="navbar-brand" href="/">Project Management</a>
+            {% if user.department == 'code' %}
+            <a class="navbar-brand" href="{% url 'code_department_projects' %}">Code Department Projects</a>
+            {% elif user.department == 'document' %}
+            <a class="navbar-brand" href="{% url 'document_department_projects' %}">Documents Department Projects</a>
+            {% else %}
+            <a class="navbar-brand" href="{% url 'project_list' %}">All Projects</a>
+            <a class="navbar-brand" href="{% url 'user_list' %}">User List</a>
+
+            
+            {% endif %}
+            <a class="navbar-brand" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+            <a class="navbar-brand" href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    
+    <div class="container mt-4">
+        {% block content %}
+        <div class="jumbotron text-center">
+            <h1 class="display-4">Welcome to the Project Management System!</h1>
+            <p class="lead">Manage your projects and folders with ease.</p>
+            <a href="{% url 'project_list' %}" class="btn btn-primary btn-lg">Get Started</a>
+        </div>
+        {% endblock %}
+    </div>
+</body>
+</html>

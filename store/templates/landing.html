@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Welcome to the Project Management System!</h1>
+        <p class="lead">Manage your projects and folders with ease.</p>
+        <a href="{% url 'project_list' %}" class="btn btn-primary btn-lg">Get Started</a>
+    </div>
+{% endblock %}
